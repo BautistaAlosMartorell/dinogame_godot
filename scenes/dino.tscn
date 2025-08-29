@@ -133,10 +133,10 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_i6e61"]
-size = Vector2(11, 17)
+size = Vector2(8.75, 13.75)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_3gcp4"]
-size = Vector2(11, 13)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ybb2o"]
+size = Vector2(7.25, 12.5)
 
 [node name="dino" type="CharacterBody2D"]
 z_index = 1
@@ -145,18 +145,19 @@ scale = Vector2(8, 8)
 script = ExtResource("1_ybb2o")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-0.125, 0)
 sprite_frames = SubResource("SpriteFrames_wv0cb")
-animation = &"idle"
+animation = &"jump"
 autoplay = "idle"
 
 [node name="RunCol" type="CollisionShape2D" parent="."]
-position = Vector2(-0.5, 0.5)
+position = Vector2(0.375, -0.625)
 shape = SubResource("RectangleShape2D_i6e61")
 debug_color = Color(0.946965, 5.96821e-06, 0.585323, 0.42)
 
 [node name="DuckCol" type="CollisionShape2D" parent="."]
-position = Vector2(-0.5, 0.5)
-shape = SubResource("RectangleShape2D_3gcp4")
+position = Vector2(0.375, 0.125)
+shape = SubResource("RectangleShape2D_ybb2o")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_ybb2o")
