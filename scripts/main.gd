@@ -5,9 +5,12 @@ var stump_scene = preload("res://scenes/stump.tscn")
 var rock_scene = preload("res://scenes/rock.tscn")
 var barrel_scene = preload("res://scenes/barrel.tscn")
 var bird_scene = preload("res://scenes/bird.tscn")
+var coin_scene = preload("res://scenes/coin.tscn")
 var obstacle_types := [stump_scene, rock_scene, barrel_scene]
 var obstacles : Array
+var coins : Array 
 var bird_heights := [200, 390]
+var last_coin_x : int = 0
 
 #game variables
 const DINO_START_POS := Vector2i(150, 485)
@@ -40,11 +43,18 @@ func new_game():
 	game_running = false
 	get_tree().paused = false
 	difficulty = 0
+	last_coin_x = 0 
 	
 	#delete all obstacles
 	for obs in obstacles:
 		obs.queue_free()
 	obstacles.clear()
+	
+	#delete all coins
+	for coin in coins:
+		if is_instance_valid(coin):
+			coin.queue_free()
+	coins.clear()     
 	
 	#reset the nodes
 	$Dino.position = DINO_START_POS
@@ -84,6 +94,9 @@ func _process(delta):
 		for obs in obstacles:
 			if obs.position.x < ($Camera2D.position.x - screen_size.x):
 				remove_obs(obs)
+		for coin in coins:
+			if is_instance_valid(coin) and coin.position.x < ($Camera2D.position.x - screen_size.x):
+				remove_coin(coin)		
 	else:
 		if Input.is_action_pressed("ui_accept"):
 			game_running = true
@@ -111,7 +124,22 @@ func generate_obs():
 				var obs_x : int = screen_size.x + score + 100
 				var obs_y : int = bird_heights[randi() % bird_heights.size()]
 				add_obs(obs, obs_x, obs_y)
-
+				
+#	# chance aleatoria de generar una moneda
+	if (randi() % 3) == 0 and score > last_coin_x + 800: # 1 de cada 3 veces
+		var coin = coin_scene.instantiate()
+		var base_x = last_obs.position.x + 150
+		var coin_x = base_x
+		var coin_y = last_obs.position.y - 100
+		add_coin(coin, coin_x, coin_y)
+		last_coin_x = score
+		
+func add_coin(coin, x, y):
+	coin.position = Vector2i(x, y)
+	add_child(coin)
+	coins.append(coin)
+	
+	
 func add_obs(obs, x, y):
 	obs.position = Vector2i(x, y)
 	obs.body_entered.connect(hit_obs)
@@ -121,6 +149,12 @@ func add_obs(obs, x, y):
 func remove_obs(obs):
 	obs.queue_free()
 	obstacles.erase(obs)
+	
+func remove_coin(coin):
+	if is_instance_valid(coin):
+		coin.queue_free()
+	coins.erase(coin)
+
 	
 func hit_obs(body):
 	if body.name == "Dino":

@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://c7ot0ja28ec2i"]
+[gd_scene load_steps=8 format=3 uid="uid://c7ot0ja28ec2i"]
 
 [ext_resource type="Script" uid="uid://ddw31fcui0ooe" path="res://scripts/main.gd" id="1_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://cmd7kwmhw7hdp" path="res://scenes/background.tscn" id="1_sugp2"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bt2ukub8ykfix" path="res://scenes/dino.tscn" id="3_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://diaev5iksqocv" path="res://scenes/hud.tscn" id="5_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://ccft37je5kfua" path="res://scenes/game_over.tscn" id="6_tefeu"]
+[ext_resource type="PackedScene" uid="uid://cgeg52g8gexv3" path="res://scenes/coin_ui.tscn" id="7_tipki"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_jyhfs")
@@ -24,3 +25,11 @@ position = Vector2(576, 324)
 
 [node name="GameOver" parent="." instance=ExtResource("6_tefeu")]
 process_mode = 2
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="CoinUI" parent="CanvasLayer" instance=ExtResource("7_tipki")]
+offset_left = 783.0
+offset_top = 17.0
+offset_right = 827.0
+offset_bottom = 69.0
